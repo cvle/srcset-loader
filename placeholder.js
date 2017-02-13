@@ -27,17 +27,12 @@ function getColor(buffer, size) {
   });
 }
 
-function createPlaceholder(content, width = 20) {
+function createPlaceholder(content, width = 8) {
   return resizeImage(content, width).then((resizedBuffer) => {
     const size = imageSize(resizedBuffer);
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size.width} ${size.height}">
-      <filter id="x"><feGaussianBlur stdDeviation="1" /></filter>
-      <image width="100%" height="100%" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="${bufferToDataUri(`.${size.type}`, resizedBuffer)}" filter="url(#x)"/>
-    </svg>`;
-
     const ratio = (size.height / size.width);
     return {
-      url: bufferToDataUri('.svg', new Buffer(svg, 'utf8')),
+      url: bufferToDataUri(`.${size.type}`, resizedBuffer),
       ratio,
       size,
     };
